@@ -58,6 +58,19 @@ func TestGetHeight(t *testing.T) {
 	}
 }
 
+func TestGetHeight1(t *testing.T) {
+	for i := uint64(0); i < 65536; i++ {
+		if GetHeight(i) != GetHeight1(i) {
+			t.Errorf(
+				"GetHeight1(%d) returned %d, but should be %d",
+				i,
+				GetHeight1(i),
+				GetHeight(i),
+			)
+		}
+	}
+}
+
 func TestGetHeight2(t *testing.T) {
 	for i := uint64(0); i < 65536; i++ {
 		if GetHeight(i) != GetHeight2(i) {
@@ -103,6 +116,13 @@ func BenchmarkGetHeight(b *testing.B) {
 	// run the function b.N times
 	for n := 0; n < b.N; n++ {
 		GetHeight(value)
+	}
+}
+
+func BenchmarkGetHeight1(b *testing.B) {
+	// run the function b.N times
+	for n := 0; n < b.N; n++ {
+		GetHeight1(value)
 	}
 }
 

@@ -1,6 +1,9 @@
 package ceilog2
 
-import "math"
+import (
+	"math"
+	"math/bits"
+)
 
 // The log base 2 of an integer is the same as the position of the highest bit
 // set (or most significant bit set, MSB).
@@ -15,6 +18,11 @@ func GetHeight(version uint64) uint64 {
 			),
 		),
 	)
+}
+
+// Return ceil(log_2(x))
+func GetHeight1(x uint64) uint64 {
+	return uint64(bits.Len64(x))
 }
 
 // Return ceil(log_2(x))
