@@ -2,6 +2,9 @@ package ceilog2
 
 import "math"
 
+// The log base 2 of an integer is the same as the position of the highest bit
+// set (or most significant bit set, MSB).
+
 func GetHeight(version uint64) uint64 {
 	return uint64(
 		math.Ceil(
