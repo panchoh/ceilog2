@@ -2,59 +2,51 @@ package ceilog2
 
 import (
 	"fmt"
-	"math"
-	"sort"
 	"testing"
 )
 
 var value uint64 = 100
 
 func TestGetHeight(t *testing.T) {
-
-	msbOf := map[uint64]uint64{
-		0:            0,
-		1:            1,
-		2:            2,
-		3:            2,
-		4:            3,
-		5:            3,
-		6:            3,
-		7:            3,
-		8:            4,
-		216:          8,
-		1021:         10,
-		32767:        15,
-		32768:        16,
-		3297381253:   32,
-		323543844043: 39,
+	tests := []struct {
+		in  uint64
+		out uint64
+	}{
+		{0, 0},
+		{1, 1},
+		{2, 2},
+		{3, 2},
+		{4, 3},
+		{5, 3},
+		{6, 3},
+		{7, 3},
+		{8, 4},
+		{216, 8},
+		{1021, 10},
+		{32767, 15},
+		{32768, 16},
+		{3297381253, 32},
+		{323543844043, 39},
 	}
 
-	keys := make([]int, len(msbOf))
-	i := 0
-	for key := range msbOf {
-		keys[i] = int(key)
-		i++
-	}
-	fmt.Printf("%v\n", keys)
-	sort.Ints(keys)
-	fmt.Printf("%v\n", keys)
-	fmt.Printf("%v\n", msbOf)
-	for _, k := range keys {
-		v := msbOf[uint64(k)]
-		fmt.Println("------------")
-		fmt.Printf("%64d\n", k)
-		fmt.Printf("%.64b\n", k)
-		fmt.Printf("%64b\n", uint64(math.Pow(2.0, float64(v-1))))
-		fmt.Printf("%64b\n", v)
-		fmt.Println("------------")
-		if GetHeight(uint64(k)) != v {
-			t.Errorf(
-				"GetHeight(%d) returned %d, but should be %d",
-				k,
-				GetHeight(uint64(k)),
-				v,
-			)
-		}
+	for _, tt := range tests {
+		fmt.Printf(
+			"size:\t\t%64d\nbinary size:\t%064b\nMSB:\t\t%64b\nLen(size):\t%64b\n",
+			tt.in,
+			tt.in,
+			1<<(tt.out-1),
+			tt.out,
+		)
+		t.Run(fmt.Sprintf("%d", tt.in), func(t *testing.T) {
+			if GetHeight(tt.in) != tt.out {
+				t.Errorf(
+					"GetHeight(%d) returned %d, but should be %d",
+					tt.in,
+					GetHeight(uint64(tt.in)),
+					tt.out,
+				)
+			}
+		})
 	}
 }
 
